@@ -1,6 +1,9 @@
-
+import SimpleButton from "./SimpleButton";
+import { useCart } from "../context/CartContext";
 
 const ProductCard = ( { product }) => {
+  const { addToCart } = useCart();
+
     return ( 
         <div
             
@@ -14,6 +17,7 @@ const ProductCard = ( { product }) => {
             <h2 className='text-xl font-semibold'>{product.name}</h2>
             <p className='text-gray-500 text-sm mb-2'>{product.description}</p>
             <p className='font-bold text-lg'>${product.price.toFixed(2)}</p>
+            <SimpleButton buttonText=" add me! " onClick={() => addToCart(product)}/>
         </div>
      );
 }
