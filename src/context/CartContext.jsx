@@ -1,12 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 //the context
 const CartContext = createContext();
 
 //the provider
 export function CartProvider( {children} ) {
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState( () => { 
+        const stored = localStorage.getItem('cart')
+        return stored ? JSON.parse(stored) : []
+    })
+
+    useEffect (() => {
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }, [cart]);
 
     const addToCart = (product) => {
         setCart((prev) => {
