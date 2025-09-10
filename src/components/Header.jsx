@@ -5,7 +5,7 @@ import { FaShoppingBasket } from "react-icons/fa";
 const Header = () => {
     const [showDropDown, setShowDropDown] = useState(false);
 
-    const { cart } = useCart();
+    const { cart, removeFromCart, clearCart } = useCart();
     const itemCount = cart.reduce((acc, item) => acc + item.qty, 0)
     const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
 
@@ -28,7 +28,7 @@ const Header = () => {
                         <div className='absolute right-0 mt-2 w-80 bg-white border border-slate-500 rounded shadow-xl z-50'>
                             <div className='p-4'>
                                 <h2 className='font-semibold text-lg mb-2'>My items</h2>
-                                { cart.lenght === 0 ? <p>no items!</p> :
+                                { cart.length === 0 ? <p>Your cart is empty!!!</p> :
                                 
                                     (
                                         <>
@@ -38,8 +38,11 @@ const Header = () => {
                                                         <li key={item.id} className='flex justify-between items-center p-2'>
                                                             <div>
                                                                 <p className='font-semibold text-pink-600'>{item.name}</p>
-                                                                <p className='text-sm text-slate-400'>{item.qty} x ${item.price}}</p>
+                                                                <p className='text-sm text-slate-400'>{item.qty} x ${item.price}</p>
+                                                                
                                                             </div>
+                                                            
+                                                            <button className="text-red-600" onClick={ () => removeFromCart(item.id)}>remove</button>
                                                             
                                                         </li>
                                                     ))
@@ -48,7 +51,9 @@ const Header = () => {
                                             <div className='mt-4 flex justify-between font-semibold'>
                                                 <span>Total:</span>
                                                 <span>${total}</span>
+                                                
                                             </div>
+                                            <button onClick={clearCart} className='flex justify-end pt-4 text-slate-500 text-sm hover:text-pink-600'>Clear cart</button>
                                         </>
                                     )
                                 }
